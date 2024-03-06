@@ -117,16 +117,33 @@ public class TunaPianoDbContext : DbContext
             new()
             {
                 ID = 2,
-                SongId = 1,
-                GenreId = 1,
+                SongId = 2,
+                GenreId = 2,
             },
             new()
             {
                 ID = 3,
-                SongId = 1,
+                SongId = 3,
+                GenreId = 2,
+            },
+            new()
+            {
+                ID = 4,
+                SongId = 4,
                 GenreId = 1,
             },
-
+            new()
+            {
+                ID = 5,
+                SongId = 5,
+                GenreId = 2,
+            },
+            new()
+            {
+                ID = 6,
+                SongId = 6,
+                GenreId = 2,
+            },
         });
     }
 }
