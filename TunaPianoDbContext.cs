@@ -59,50 +59,50 @@ public class TunaPianoDbContext : DbContext
             new()
             {
                 ID = 1,
-                Title = "",
+                Title = "Save Me",
                 ArtistId = 1,
-                Album = "",
-                Length = 50,
+                Album = "Nightmare",
+                Length = 656,
             },
             new()
             {
                 ID = 2,
-                Title = "",
+                Title = "Anticure",
                 ArtistId = 2,
-                Album = "",
-                Length = 50,
+                Album = "Kin",
+                Length = 336,
             },
             new() 
             { 
                 ID = 3,
-                Title = "",
+                Title = "Far from Heaven",
                 ArtistId = 3,
-                Album = "",
-                Length = 50,
+                Album = "Oh What The Future Holds",
+                Length = 284,
             },
             new()
             {
                 ID = 4,
-                Title = "",
-                ArtistId = 4,
-                Album = "",
-                Length = 50,
+                Title = "Natural Born Killer",
+                ArtistId = 1,
+                Album = "Nightmare",
+                Length = 315,
             },
             new()
             {
                 ID = 5,
-                Title = "",
-                ArtistId = 5,
-                Album = "",
-                Length = 50,
+                Title = "Hickory Creek",
+                ArtistId = 2,
+                Album = "Hickory Creek",
+                Length = 243,
             },
             new()
             {
                 ID = 6,
-                Title = "",
-                ArtistId = 6,
-                Album = "",
-                Length = 50,
+                Title = "Nampalm Dreams",
+                ArtistId = 3,
+                Album = "The Sea Of Tragic Beasts",
+                Length = 296,
             }
         });
 
