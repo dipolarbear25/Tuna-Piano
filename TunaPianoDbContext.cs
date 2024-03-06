@@ -20,7 +20,7 @@ public class TunaPianoDbContext : DbContext
             new()
             {
                 ID = 1,
-                Name = "Avenged Sevenfold"
+                Name = "Avenged Sevenfold",
                 Age = 25,
                 Bio = "American heavy metal band from Huntington Beach, California, formed in 1999. The band's current lineup consists of vocalist M. Shadows, rhythm guitarist Zacky Vengeance, lead guitarist Synyster Gates, bassist Johnny Christ, and drummer Brooks Wackerman."
             },
@@ -59,24 +59,50 @@ public class TunaPianoDbContext : DbContext
             new()
             {
                 ID = 1,
-                SellerId = 1,
-                ProductName = "Movement Sensor Lamp",
-                CategoryId = 1,
-                QuantityInStock = 2,
-                Description = "This item is a lamp that has no buttons to turn on, but the bottom rim of the lamp shade has a movement sensor to detect when someone or something walks by, thus turning it on.",
-                PricePerUnit = 25.00M,
-                TimePosted = new DateTime(2024, 2, 16)
+                Title = "",
+                ArtistId = 1,
+                Album = "",
+                Length = 50,
             },
             new()
             {
                 ID = 2,
-                SellerId = 2,
-                ProductName = "Aluminum bat",
-                CategoryId = 2,
-                QuantityInStock = 5,
-                Description = "A baseball bat made out of aluminum.",
-                PricePerUnit = 40.00M,
-                TimePosted = new DateTime(2024, 2, 4)
+                Title = "",
+                ArtistId = 2,
+                Album = "",
+                Length = 50,
+            },
+            new() 
+            { 
+                ID = 3,
+                Title = "",
+                ArtistId = 3,
+                Album = "",
+                Length = 50,
+            },
+            new()
+            {
+                ID = 4,
+                Title = "",
+                ArtistId = 4,
+                Album = "",
+                Length = 50,
+            },
+            new()
+            {
+                ID = 5,
+                Title = "",
+                ArtistId = 5,
+                Album = "",
+                Length = 50,
+            },
+            new()
+            {
+                ID = 6,
+                Title = "",
+                ArtistId = 6,
+                Album = "",
+                Length = 50,
             }
         });
 
@@ -85,24 +111,22 @@ public class TunaPianoDbContext : DbContext
             new()
             {
                 ID = 1,
-                Email = "Jjonna@dailybugle.com",
-                Name = "John Jonah Jameson Jr",
-                IsSeller = true
+                SongId = 1,
+                GenreId = 1,
             },
             new()
             {
                 ID = 2,
-                Email = "AuntieMayLovesBen@gmail.com",
-                Name = "Maybelle Parker-Jameson",
-                IsSeller = false
+                SongId = 1,
+                GenreId = 1,
             },
             new()
             {
                 ID = 3,
-                Email = "PeterParker@ESU.com",
-                Name = "Peter Parker",
-                IsSeller = true
-            }
+                SongId = 1,
+                GenreId = 1,
+            },
+
         });
     }
 }
