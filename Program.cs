@@ -50,6 +50,11 @@ app.MapDelete("/api/songs/{id}", (TunaPianoDbContext db, int id) =>
     return Results.NoContent();
 });
 
+app.MapGet("/songs/{Id}", (TunaPianoDbContext db, int Id) =>
+{
+    return db.Songs.Include(s => s.Artist).Include(s => s.Genres).FirstOrDefault(s => s.ID == Id);
+});
+
 app.MapPut("/api/songs/{id}", (TunaPianoDbContext db, int id, Song updateSong) =>
 {
     Song songUpdated = db.Songs.SingleOrDefault(product => product.ID == id);
@@ -67,42 +72,6 @@ app.MapPut("/api/songs/{id}", (TunaPianoDbContext db, int id, Song updateSong) =
     db.SaveChanges();
     return Results.Ok();
 });
-
-app.MapGet("/api/songs/{id}", (TunaPianoDbContext db, int id) =>
-{
-    var song = db.Songs
-    .Include(s => s.Artist)
-    .Include(s => s.Genres)
-    .FirstOrDefault(s => s.ID == id);
-
-    if (song == null)
-    {
-        return Results.NotFound(id);
-    }
-
-    var response = new
-    {
-        id = song.ID,
-        title = song.Title,
-        artist = new
-        {
-            id = song.Artist.ID,
-            name = song.Artist.Name,
-            age = song.Artist.Age,
-            bio = song.Artist.Bio
-        },
-        album = song.Album,
-        length = song.Length,
-        genre = song.Genres.Select(genre => new
-        {
-            id = genre.ID,
-            description = genre.Description,
-        }).ToList()
-    };
-
-    return Results.Ok();
-});
-
 
 app.MapPost("/api/songs", (TunaPianoDbContext db, Song songs) =>
 {
@@ -150,16 +119,35 @@ app.MapGet("/api/artists", (TunaPianoDbContext db) =>
     return db.Artists.ToList();
 });
 
-app.MapGet("/api/artists/{id}", (TunaPianoDbContext db, int id) =>
+app.MapGet("/api/artists/{id}", async (int id, TunaPianoDbContext db) =>
 {
-    var pID = db.Artists.FirstOrDefault(u => u.ID == id);
-
-    if (pID == null)
+    var artistSongs = await db.Artists
+        .Where(a => a.ID == id)
+        .Select(a => new
+        {
+            ID = a.ID,
+            Name = a.Name,
+            Age = a.Age,
+            Bio = a.Bio,
+            SongCount = db.Songs.Count(s => s.ArtistId == a.ID),
+            Songs = db.Songs
+                      .Where(s => s.ArtistId == a.ID)
+                      .Select(s => new
+                      {
+                          ID = s.ID,
+                          Title = s.Title,
+                          Album = s.Album,
+                          Length = s.Length
+                      }).ToList()
+        })
+        .FirstOrDefaultAsync();
+    if (artistSongs == null)
     {
-        return Results.NotFound("User not found.");
+        return Results.NotFound();
     }
-    return Results.Ok(pID);
+    return Results.Ok(artistSongs);
 });
+
 
 app.MapPost("/api/genres", (TunaPianoDbContext db, Genre newGenre) =>
 {
@@ -198,15 +186,35 @@ app.MapGet("/api/genres", (TunaPianoDbContext db) =>
     return db.Genres.ToList();
 });
 
-app.MapGet("/api/genres/{id}", (TunaPianoDbContext db, int id) =>
+app.MapGet("/api/genres/{id}", async (TunaPianoDbContext db, int id) =>
 {
-    var pID = db.Genres.FirstOrDefault(u => u.ID == id);
-
-    if (pID == null)
+    var genreWithSongs = await db.Genres
+        .Where(g => g.ID == id)
+        .Select(g => new
+        {
+            ID = g.ID,
+            Description = g.Description,
+            Songs = db.SongGenres
+                      .Where(sg => sg.GenreId == g.ID)
+                      .Join(db.Songs,
+                            sg => sg.SongId,
+                            s => s.ID,
+                            (sg, s) => new
+                            {
+                                ID = s.ID,
+                                Title = s.Title,
+                                ArtistId = s.ArtistId,
+                                Album = s.Album,
+                                Length = s.Length
+                            })
+                      .ToList()
+        })
+        .FirstOrDefaultAsync();
+    if (genreWithSongs == null)
     {
-        return Results.NotFound("User not found.");
+        return Results.NotFound();
     }
-    return Results.Ok(pID);
+    return Results.Ok(genreWithSongs);
 });
 
 app.Run();
